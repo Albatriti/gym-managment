@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anëtarët — GymFlow</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar"></aside>
+
+<div class="main-content">
+  <header class="topbar">
+    <span class="topbar-title">Anëtarët</span>
+    <div class="topbar-actions">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Kërko anëtar..." oninput="filterMembers()" />
+      </div>
+      <button class="btn-primary-custom" onclick="openModal('addMemberModal')">+ Shto Anëtar</button>
+    </div>
+  </header>
+
+  <main class="page-content">
+
+    <div class="stat-grid" style="grid-template-columns: repeat(3,1fr);">
+      <div class="stat-card yellow">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value">142</div>
+        <div class="stat-label">Anëtarë Aktivë</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-icon">⏰</div>
+        <div class="stat-value">23</div>
+        <div class="stat-label">Anëtarësi Skaduar</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value">165</div>
+        <div class="stat-label">Totali</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Lista e Anëtarëve</span>
+        <span style="font-size:0.78rem; color:var(--text-muted);" id="memberCount">165 anëtarë</span>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Emri</th>
+              <th>Email</th>
+              <th>Telefoni</th>
+              <th>Anëtarësia deri</th>
+              <th>Statusi</th>
+              <th>Veprimet</th>
+            </tr>
+          </thead>
+          <tbody id="membersTable">
+            <tr>
+              <td style="color:var(--text-muted);">001</td>
+              <td><strong>Arben Krasniqi</strong></td>
+              <td style="color:var(--text-muted);">arben.k@email.com</td>
+              <td style="color:var(--text-muted);">+383 44 123 456</td>
+              <td>30 Prill 2026</td>
+              <td><span class="badge-status status-active">Aktiv</span></td>
+              <td>
+                <button class="btn-icon" title="Shiko profilin">👁️</button>
+                <button class="btn-icon" title="Edito" style="margin-left:4px;">✏️</button>
+                <button class="btn-danger" style="margin-left:4px;" onclick="deleteMember(this)">Fshi</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);">002</td>
+              <td><strong>Drita Morina</strong></td>
+              <td style="color:var(--text-muted);">drita.m@email.com</td>
+              <td style="color:var(--text-muted);">+383 44 234 567</td>
+              <td>15 Maj 2026</td>
+              <td><span class="badge-status status-active">Aktiv</span></td>
+              <td>
+                <button class="btn-icon" title="Shiko profilin">👁️</button>
+                <button class="btn-icon" title="Edito" style="margin-left:4px;">✏️</button>
+                <button class="btn-danger" style="margin-left:4px;" onclick="deleteMember(this)">Fshi</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);">003</td>
+              <td><strong>Blerim Hoxha</strong></td>
+              <td style="color:var(--text-muted);">blerim.h@email.com</td>
+              <td style="color:var(--text-muted);">+383 44 345 678</td>
+              <td>10 Mars 2026</td>
+              <td><span class="badge-status status-expired">Skaduar</span></td>
+              <td>
+                <button class="btn-icon" title="Shiko profilin">👁️</button>
+                <button class="btn-icon" title="Edito" style="margin-left:4px;">✏️</button>
+                <button class="btn-danger" style="margin-left:4px;" onclick="deleteMember(this)">Fshi</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);">004</td>
+              <td><strong>Valbona Hyseni</strong></td>
+              <td style="color:var(--text-muted);">valbona.h@email.com</td>
+              <td style="color:var(--text-muted);">+383 44 456 789</td>
+              <td>20 Qershor 2026</td>
+              <td><span class="badge-status status-active">Aktiv</span></td>
+              <td>
+                <button class="btn-icon" title="Shiko profilin">👁️</button>
+                <button class="btn-icon" title="Edito" style="margin-left:4px;">✏️</button>
+                <button class="btn-danger" style="margin-left:4px;" onclick="deleteMember(this)">Fshi</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);">005</td>
+              <td><strong>Mimoza Bajra</strong></td>
+              <td style="color:var(--text-muted);">mimoza.b@email.com</td>
+              <td style="color:var(--text-muted);">+383 44 567 890</td>
+              <td>14 Mars 2026</td>
+              <td><span class="badge-status status-pending">Pending</span></td>
+              <td>
+                <button class="btn-icon" title="Shiko profilin">👁️</button>
+                <button class="btn-icon" title="Edito" style="margin-left:4px;">✏️</button>
+                <button class="btn-danger" style="margin-left:4px;" onclick="deleteMember(this)">Fshi</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);">006</td>
+              <td><strong>Fisnik Gashi</strong></td>
+              <td style="color:var(--text-muted);">fisnik.g@email.com</td>
+              <td style="color:var(--text-muted);">+383 44 678 901</td>
+              <td>01 Korrik 2026</td>
+              <td><span class="badge-status status-active">Aktiv</span></td>
+              <td>
+                <button class="btn-icon" title="Shiko profilin">👁️</button>
+                <button class="btn-icon" title="Edito" style="margin-left:4px;">✏️</button>
+                <button class="btn-danger" style="margin-left:4px;" onclick="deleteMember(this)">Fshi</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal: Shto Anëtar -->
+<div class="modal-overlay" id="addMemberModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">Shto Anëtar të Ri</span>
+      <button class="btn-icon" onclick="closeModal('addMemberModal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Emri</label>
+        <input class="form-control" id="firstName" type="text" placeholder="p.sh. Arben" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mbiemri</label>
+        <input class="form-control" id="lastName" type="text" placeholder="p.sh. Krasniqi" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-control" id="email" type="email" placeholder="emri@email.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefoni</label>
+      <input class="form-control" id="phone" type="text" placeholder="+383 44 000 000" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data e fillimit</label>
+        <input class="form-control" id="startDate" type="date" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Lloji i anëtarësisë</label>
+        <select class="form-control" id="memberType">
+          <option value="monthly">Mujore — 30€</option>
+          <option value="quarterly">3 Mujore — 80€</option>
+          <option value="annual">Vjetore — 280€</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+      <button class="btn-ghost" onclick="closeModal('addMemberModal')">Anulo</button>
+      <button class="btn-primary-custom" onclick="addMember()">✅ Shto Anëtarin</button>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+  initSidebar('members');
+
+  function filterMembers() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#membersTable tr');
+    let count = 0;
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const show = text.includes(q);
+      row.style.display = show ? '' : 'none';
+      if (show) count++;
+    });
+    document.getElementById('memberCount').textContent = count + ' anëtarë';
+  }
+
+  function addMember() {
+    const first = document.getElementById('firstName').value.trim();
+    const last  = document.getElementById('lastName').value.trim();
+    if (!first || !last) { showToast('Plotëso emrin dhe mbiemrin!', 'warning'); return; }
+
+    const tbody = document.getElementById('membersTable');
+    const rows  = tbody.querySelectorAll('tr').length + 1;
+    const id    = String(rows).padStart(3, '0');
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--text-muted);">${id}</td>
+      <td><strong>${first} ${last}</strong></td>
+      <td style="color:var(--text-muted);">${document.getElementById('email').value || '—'}</td>
+      <td style="color:var(--text-muted);">${document.getElementById('phone').value || '—'}</td>
+      <td>${document.getElementById('startDate').value || '—'}</td>
+      <td><span class="badge-status status-active">Aktiv</span></td>
+      <td>
+        <button class="btn-icon">👁️</button>
+        <button class="btn-icon" style="margin-left:4px;">✏️</button>
+        <button class="btn-danger" style="margin-left:4px;" onclick="deleteMember(this)">Fshi</button>
+      </td>`;
+    tbody.appendChild(tr);
+    closeModal('addMemberModal');
+    showToast(`${first} ${last} u shtua me sukses!`, 'success');
+  }
+
+  function deleteMember(btn) {
+    if (confirm('A je i sigurt që dëshiron ta fshish këtë anëtar?')) {
+      btn.closest('tr').remove();
+      showToast('Anëtari u fshi.', 'danger');
+    }
+  }
+</script>
+</body>
+</html>

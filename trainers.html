@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trajnerët — GymFlow</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar"></aside>
+
+<div class="main-content">
+  <header class="topbar">
+    <span class="topbar-title">Trajnerët</span>
+    <div class="topbar-actions">
+      <button class="btn-primary-custom" onclick="openModal('addTrainerModal')">+ Shto Trajner</button>
+    </div>
+  </header>
+
+  <main class="page-content">
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;" id="trainerGrid">
+
+      <div class="card">
+        <div class="card-body" style="text-align:center;">
+          <div style="width:64px;height:64px;border-radius:50%;background:var(--primary);color:var(--dark);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1.4rem;margin:0 auto 14px;">FB</div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:2px;">Fitore Berisha</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin:4px 0 12px;">Yoga & Pilates</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px;">
+            <span style="background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:0.72rem;">Yoga Matinal</span>
+            <span style="background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:0.72rem;">Pilates Eve.</span>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;">
+            <button class="btn-ghost" style="font-size:0.78rem;">✏️ Edito</button>
+            <button class="btn-danger" onclick="deleteTrainer(this)">Fshi</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body" style="text-align:center;">
+          <div style="width:64px;height:64px;border-radius:50%;background:var(--info);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1.4rem;margin:0 auto 14px;">AL</div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:2px;">Agon Laci</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin:4px 0 12px;">Crossfit & Boxing</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px;">
+            <span style="background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:0.72rem;">Crossfit 10:00</span>
+            <span style="background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:0.72rem;">Box Training</span>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;">
+            <button class="btn-ghost" style="font-size:0.78rem;">✏️ Edito</button>
+            <button class="btn-danger" onclick="deleteTrainer(this)">Fshi</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body" style="text-align:center;">
+          <div style="width:64px;height:64px;border-radius:50%;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1.4rem;margin:0 auto 14px;">DV</div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:2px;">Dita Vllasi</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin:4px 0 12px;">Zumba & Dance</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px;">
+            <span style="background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:0.72rem;">Zumba 17:00</span>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;">
+            <button class="btn-ghost" style="font-size:0.78rem;">✏️ Edito</button>
+            <button class="btn-danger" onclick="deleteTrainer(this)">Fshi</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="addTrainerModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">Shto Trajner të Ri</span>
+      <button class="btn-icon" onclick="closeModal('addTrainerModal')">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Emri</label>
+        <input class="form-control" id="trainerFirst" type="text" placeholder="Emri" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mbiemri</label>
+        <input class="form-control" id="trainerLast" type="text" placeholder="Mbiemri" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Specializimi</label>
+      <input class="form-control" id="trainerSpec" type="text" placeholder="p.sh. Yoga & Pilates" />
+    </div>
+    <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+      <button class="btn-ghost" onclick="closeModal('addTrainerModal')">Anulo</button>
+      <button class="btn-primary-custom" onclick="addTrainer()">✅ Shto Trajnerin</button>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+  initSidebar('trainers');
+
+  function deleteTrainer(btn) {
+    if (confirm('A je i sigurt që dëshiron ta fshish këtë trajner?')) {
+      btn.closest('.card').remove();
+      showToast('Trajneri u fshi.', 'danger');
+    }
+  }
+
+  function addTrainer() {
+    const first = document.getElementById('trainerFirst').value.trim();
+    const last  = document.getElementById('trainerLast').value.trim();
+    const spec  = document.getElementById('trainerSpec').value.trim();
+    if (!first || !last) { showToast('Plotëso emrin dhe mbiemrin!', 'warning'); return; }
+
+    const initials = (first[0] + last[0]).toUpperCase();
+    const colors   = ['#E8FF47', '#1e90ff', '#2ed573', '#ffa502', '#ff4757'];
+    const color    = colors[Math.floor(Math.random() * colors.length)];
+    const textColor= color === '#E8FF47' ? 'var(--dark)' : '#fff';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-body" style="text-align:center;">
+        <div style="width:64px;height:64px;border-radius:50%;background:${color};color:${textColor};display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1.4rem;margin:0 auto 14px;">${initials}</div>
+        <div style="font-family:'Bebas Neue',cursive;font-size:1.1rem;letter-spacing:2px;">${first} ${last}</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);margin:4px 0 12px;">${spec || '—'}</div>
+        <div style="display:flex;gap:8px;justify-content:center;">
+          <button class="btn-ghost" style="font-size:0.78rem;">✏️ Edito</button>
+          <button class="btn-danger" onclick="deleteTrainer(this)">Fshi</button>
+        </div>
+      </div>`;
+
+    document.getElementById('trainerGrid').appendChild(card);
+    closeModal('addTrainerModal');
+    showToast(`${first} ${last} u shtua si trajner!`, 'success');
+  }
+</script>
+</body>
+</html>
