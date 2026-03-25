@@ -5,7 +5,7 @@ class Database {
     private ?PDO $connection = null;
 
     private string $host = 'localhost';
-    private string $dbname = 'gym_db';
+    private string $dbname = 'gym_management_db';
     private string $username = 'root';
     private string $password = '';
 
