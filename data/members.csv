@@ -1,0 +1,7 @@
+id,first_name,last_name,email,phone,membership_status,membership_expiry
+1,Arben,Krasniqi,arben.k@email.com,+383441234567,active,2026-05-01
+2,Drita,Morina,drita.m@email.com,+383442345678,active,2026-05-15
+3,Blerim,Hoxha,blerim.h@email.com,+383443456789,expired,2026-03-10
+4,Valbona,Hyseni,valbona.h@email.com,+383444567890,active,2026-06-20
+5,Mimoza,Bajra,mimoza.b@email.com,+383445678901,pending,2026-03-146,Kushtrim,Rexha,kushtrim@gmail.com,,active,
+6,Kushtrim,Rexha,kushtrim@gmail.com,"+383 44 000 000",active,2026-04-30
