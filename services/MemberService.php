@@ -4,10 +4,12 @@ require_once __DIR__ . '/../data/MemberRepository.php';
 class MemberService {
     private MemberRepository $repository;
 
+    // Dependency Injection — Repository hyn si parameter
     public function __construct(MemberRepository $repository) {
         $this->repository = $repository;
     }
 
+    // Metoda 1: Listo me filtrim sipas statusit
     public function listo(string $filter = ''): array {
         try {
             $members = $this->repository->getAll();
@@ -21,6 +23,7 @@ class MemberService {
         }
     }
 
+    // Metoda 2: Shto me validim
     public function shto(array $data): array {
         try {
             // Validim — emri
@@ -52,6 +55,7 @@ class MemberService {
         }
     }
 
+    // Metoda 3: Gjej sipas ID
     public function gjej(int $id): ?array {
         try {
             if ($id <= 0) return null;
@@ -88,6 +92,7 @@ class MemberService {
         }
     }
 
+    // Delete
     public function fshi(int $id): array {
         try {
             $member = $this->repository->getById($id);
