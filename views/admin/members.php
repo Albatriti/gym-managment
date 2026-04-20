@@ -8,12 +8,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 require_once '../../data/Database.php';
 $db = Database::getInstance()->getConnection();
 
+// Flash message
+$flash = null;
+if (isset($_SESSION['flash'])) {
+    $flash = $_SESSION['flash'];
+    unset($_SESSION['flash']);
+}
+
 // Update anëtar
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update') {
     $stmt = $db->prepare("UPDATE users SET first_name=:fn, last_name=:ln, email=:email WHERE id=:id");
     $stmt->execute([':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':email' => $_POST['email'], ':id' => $_POST['user_id']]);
     $stmt = $db->prepare("UPDATE members SET phone=:phone, membership_status=:status, membership_expiry=:expiry WHERE user_id=:id");
     $stmt->execute([':phone' => $_POST['phone'], ':status' => $_POST['membership_status'], ':expiry' => $_POST['membership_expiry'], ':id' => $_POST['user_id']]);
+    $_SESSION['flash'] = ['type' => 'success', 'message' => 'Anëtari u përditësua me sukses!'];
     header('Location: members.php');
     exit;
 }
@@ -34,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $userId = $db->lastInsertId();
     $stmt = $db->prepare("INSERT INTO members (user_id, phone, membership_status, membership_expiry) VALUES (:uid, :phone, 'active', :expiry)");
     $stmt->execute([':uid' => $userId, ':phone' => $_POST['phone'], ':expiry' => $_POST['expiry']]);
+    $_SESSION['flash'] = ['type' => 'success', 'message' => 'Anëtari u shtua me sukses!'];
     header('Location: members.php');
     exit;
 }
@@ -42,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
     $stmt = $db->prepare("DELETE FROM users WHERE id = :id");
     $stmt->execute([':id' => $_POST['user_id']]);
+    $_SESSION['flash'] = ['type' => 'danger', 'message' => 'Anëtari u fshi me sukses!'];
     header('Location: members.php');
     exit;
 }
@@ -84,6 +94,14 @@ $total        = count($members);
             </div>
         </header>
         <main class="page-content">
+            <?php if ($flash): ?>
+            <div style="background:<?php echo $flash['type']==='success' ? 'rgba(46,213,115,0.1)' : 'rgba(255,71,87,0.1)'; ?>;
+            border:1px solid <?php echo $flash['type']==='success' ? 'rgba(46,213,115,0.3)' : 'rgba(255,71,87,0.3)'; ?>;
+            color:<?php echo $flash['type']==='success' ? 'var(--success)' : 'var(--danger)'; ?>;
+            padding:12px 18px;border-radius:8px;margin-bottom:20px;font-size:0.88rem;">
+                <?php echo $flash['message']; ?>
+            </div>
+            <?php endif; ?>
 
             <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
                 <div class="stat-card yellow">
@@ -201,57 +219,57 @@ $total        = count($members);
             </form>
         </div>
     </div>
-    
+
     <?php if ($editMember): ?>
-<div class="modal-overlay open" id="editMemberModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <span class="modal-title">Edito Anëtarin</span>
-      <a href="members.php" class="btn-icon">✕</a>
+    <div class="modal-overlay open" id="editMemberModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span class="modal-title">Edito Anëtarin</span>
+                <a href="members.php" class="btn-icon">✕</a>
+            </div>
+            <form method="POST">
+                <input type="hidden" name="action" value="update" />
+                <input type="hidden" name="user_id" value="<?php echo $editMember['id']; ?>" />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Emri</label>
+                        <input class="form-control" type="text" name="first_name" value="<?php echo htmlspecialchars($editMember['first_name']); ?>" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mbiemri</label>
+                        <input class="form-control" type="text" name="last_name" value="<?php echo htmlspecialchars($editMember['last_name']); ?>" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" type="email" name="email" value="<?php echo htmlspecialchars($editMember['email']); ?>" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Telefoni</label>
+                    <input class="form-control" type="text" name="phone" value="<?php echo htmlspecialchars($editMember['phone'] ?? ''); ?>" />
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Statusi</label>
+                        <select class="form-control" name="membership_status">
+                            <option value="active" <?php echo $editMember['membership_status'] === 'active'  ? 'selected' : ''; ?>>Aktiv</option>
+                            <option value="expired" <?php echo $editMember['membership_status'] === 'expired' ? 'selected' : ''; ?>>Skaduar</option>
+                            <option value="pending" <?php echo $editMember['membership_status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Anëtarësia deri</label>
+                        <input class="form-control" type="date" name="membership_expiry" value="<?php echo htmlspecialchars($editMember['membership_expiry'] ?? ''); ?>" />
+                    </div>
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+                    <a href="members.php" class="btn-ghost" style="text-decoration:none;">Anulo</a>
+                    <button class="btn-primary-custom" type="submit">✅ Përditëso</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <form method="POST">
-      <input type="hidden" name="action" value="update"/>
-      <input type="hidden" name="user_id" value="<?php echo $editMember['id']; ?>"/>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Emri</label>
-          <input class="form-control" type="text" name="first_name" value="<?php echo htmlspecialchars($editMember['first_name']); ?>" required/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mbiemri</label>
-          <input class="form-control" type="text" name="last_name" value="<?php echo htmlspecialchars($editMember['last_name']); ?>" required/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input class="form-control" type="email" name="email" value="<?php echo htmlspecialchars($editMember['email']); ?>" required/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Telefoni</label>
-        <input class="form-control" type="text" name="phone" value="<?php echo htmlspecialchars($editMember['phone'] ?? ''); ?>"/>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Statusi</label>
-          <select class="form-control" name="membership_status">
-            <option value="active"  <?php echo $editMember['membership_status'] === 'active'  ? 'selected' : ''; ?>>Aktiv</option>
-            <option value="expired" <?php echo $editMember['membership_status'] === 'expired' ? 'selected' : ''; ?>>Skaduar</option>
-            <option value="pending" <?php echo $editMember['membership_status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Anëtarësia deri</label>
-          <input class="form-control" type="date" name="membership_expiry" value="<?php echo htmlspecialchars($editMember['membership_expiry'] ?? ''); ?>"/>
-        </div>
-      </div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
-        <a href="members.php" class="btn-ghost" style="text-decoration:none;">Anulo</a>
-        <button class="btn-primary-custom" type="submit">✅ Përditëso</button>
-      </div>
-    </form>
-  </div>
-</div>
-<?php endif; ?>
+    <?php endif; ?>
 
     <script src="/gym-managment/main.js"></script>
     <script>

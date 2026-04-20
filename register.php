@@ -14,7 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->fetch()) {
         $error = "Ky email është already i regjistruar!";
     } else {
+    $passError = '';
+    if (strlen($_POST['password']) < 8) {
+        $passError = 'Fjalëkalimi duhet të ketë minimum 8 karaktere!';
+    } elseif (!preg_match('/[A-Z]/', $_POST['password'])) {
+        $passError = 'Fjalëkalimi duhet të ketë të paktën 1 shkronjë të madhe!';
+    } elseif (!preg_match('/[0-9]/', $_POST['password'])) {
+        $passError = 'Fjalëkalimi duhet të ketë të paktën 1 numër!';
+    }
+
+    if (!empty($passError)) {
+        $error = $passError;
+    } else {
         $hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    }
         $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password, role) VALUES (:fn, :ln, :email, :password, :role)");
         $stmt->execute([
             ':fn'       => $_POST['first_name'],
@@ -219,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="success"><?php echo $success; ?></div>
     <?php endif; ?>
 
-    <form method="POST">
+    <form method="POST" onsubmit="return validateForm()">
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Emri</label>
@@ -237,6 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="form-group">
         <label class="form-label">Fjalëkalimi</label>
         <input class="form-control" type="password" name="password" placeholder="••••••••" required />
+        <div id="pass-msg" style="font-size:0.78rem;margin-top:6px;min-height:18px;"></div>
       </div>
       <div class="form-group">
         <label class="form-label">Roli</label>
@@ -263,6 +277,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     document.getElementById('phoneField').style.display = role === 'member' ? 'block' : 'none';
   }
   toggleFields('member');
+</script>
+<script>
+function validateForm() {
+    const password = document.querySelector('input[name="password"]').value;
+    const msgEl   = document.getElementById('pass-msg');
+
+    if (password.length < 8) {
+        msgEl.textContent = '❌ Fjalëkalimi duhet të ketë minimum 8 karaktere!';
+        msgEl.style.color = 'var(--danger)';
+        return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+        msgEl.textContent = '❌ Fjalëkalimi duhet të ketë të paktën 1 shkronjë të madhe!';
+        msgEl.style.color = 'var(--danger)';
+        return false;
+    }
+    if (!/[0-9]/.test(password)) {
+        msgEl.textContent = '❌ Fjalëkalimi duhet të ketë të paktën 1 numër!';
+        msgEl.style.color = 'var(--danger)';
+        return false;
+    }
+    return true;
+}
 </script>
 </body>
 </html>
