@@ -36,7 +36,7 @@ if (isset($_GET['edit'])) {
 
 // Shto anëtar
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
-    $hashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $hashed = password_hash('Gym@12345', PASSWORD_DEFAULT);
     $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password, role) VALUES (:fn, :ln, :email, :pass, 'member')");
     $stmt->execute([':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':email' => $_POST['email'], ':pass' => $hashed]);
     $userId = $db->lastInsertId();
@@ -198,10 +198,6 @@ $total        = count($members);
                     <label class="form-label">Email</label>
                     <input class="form-control" type="email" name="email" required />
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Fjalëkalimi</label>
-                    <input class="form-control" type="password" name="password" required />
-                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Telefoni</label>
@@ -215,6 +211,9 @@ $total        = count($members);
                 <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
                     <button class="btn-ghost" type="button" onclick="closeModal('addMemberModal')">Anulo</button>
                     <button class="btn-primary-custom" type="submit">✅ Shto Anëtarin</button>
+                    <div style="margin-top:12px;padding:10px 14px;background:rgba(232,255,71,0.08);border:1px solid rgba(232,255,71,0.2);border-radius:8px;font-size:0.78rem;color:var(--text-muted);">
+                        💡 Fjalëkalimi fillestar i anëtarit do të jetë: <strong style="color:var(--primary);">Gym@12345</strong> — anëtari duhet ta ndryshojë pas kyçjes së parë.
+                    </div>
                 </div>
             </form>
         </div>
