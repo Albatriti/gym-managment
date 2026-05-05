@@ -39,6 +39,20 @@ $classes = $db->query("
     </div>
   </header>
   <main class="page-content">
+    
+    <?php if (isset($_GET['success'])): ?>
+<div style="background:rgba(46,213,115,0.1);border:1px solid rgba(46,213,115,0.3);color:var(--success);padding:12px 18px;border-radius:8px;margin-bottom:20px;font-size:0.88rem;">
+    ✅ Rezervimi u krye me sukses!
+</div>
+<?php elseif (isset($_GET['error']) && $_GET['error'] === 'already_reserved'): ?>
+<div style="background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.3);color:var(--danger);padding:12px 18px;border-radius:8px;margin-bottom:20px;font-size:0.88rem;">
+    ❌ E ke rezervuar tashmë këtë klasë!
+</div>
+<?php elseif (isset($_GET['error']) && $_GET['error'] === 'full'): ?>
+<div style="background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.3);color:var(--danger);padding:12px 18px;border-radius:8px;margin-bottom:20px;font-size:0.88rem;">
+    ❌ Klasa është plot — nuk ka vende të lira!
+</div>
+<?php endif; ?>
 
     <div class="stat-grid" style="grid-template-columns:repeat(2,1fr);">
       <div class="stat-card yellow">
