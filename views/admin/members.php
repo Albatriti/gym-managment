@@ -37,11 +37,13 @@ if (isset($_GET['edit'])) {
 // Shto anëtar
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
     $hashed = password_hash('Gym@12345', PASSWORD_DEFAULT);
-    $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password, role) VALUES (:fn, :ln, :email, :pass, 'member')");
-    $stmt->execute([':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':email' => $_POST['email'], ':pass' => $hashed]);
+    $stmt = $db->prepare("INSERT INTO users (first_name, last_name, email, password, role) VALUES (:fn, :ln, :email, :pass, :role)");
+    $stmt->execute([':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':email' => $_POST['email'], ':pass' => $hashed, ':role' => $_POST['role']]);
     $userId = $db->lastInsertId();
+    if ($_POST['role'] === 'member') {
     $stmt = $db->prepare("INSERT INTO members (user_id, phone, membership_status, membership_expiry) VALUES (:uid, :phone, 'active', :expiry)");
     $stmt->execute([':uid' => $userId, ':phone' => $_POST['phone'], ':expiry' => $_POST['expiry']]);
+}
     $_SESSION['flash'] = ['type' => 'success', 'message' => 'Anëtari u shtua me sukses!'];
     header('Location: members.php');
     exit;
@@ -184,6 +186,14 @@ $total        = count($members);
             </div>
             <form method="POST">
                 <input type="hidden" name="action" value="add" />
+                <div class="form-group">
+                    <label class="form-label">Roli</label>
+                    <select class="form-control" name="role" id="adminRoleSelect" onchange="toggleAdminFields(this.value)">
+                        <option value="member">Member</option>
+                        <option value="staff">Staff</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Emri</label>
@@ -199,13 +209,13 @@ $total        = count($members);
                     <input class="form-control" type="email" name="email" required />
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" id="phoneField">
                         <label class="form-label">Telefoni</label>
                         <input class="form-control" type="text" name="phone" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="expiryField">
                         <label class="form-label">Anëtarësia deri</label>
-                        <input class="form-control" type="date" name="expiry" required />
+                        <input class="form-control" type="date" name="expiry" />
                     </div>
                 </div>
                 <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
@@ -270,7 +280,7 @@ $total        = count($members);
     </div>
     <?php endif; ?>
 
-    <script src="/gym-managment/main.js"></script>
+    <script src="/gym-managment/main.js?v=2"></script>
     <script>
         initSidebar('members');
 
@@ -280,6 +290,21 @@ $total        = count($members);
                 row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
             });
         }
+
+        function toggleAdminFields(role) {
+            const phoneField = document.getElementById('phoneField');
+            const expiryField = document.getElementById('expiryField');
+            if (role === 'member') {
+                phoneField.style.display = 'block';
+                expiryField.style.display = 'block';
+            } else {
+                phoneField.style.display = 'none';
+                expiryField.style.display = 'none';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleAdminFields(document.getElementById('adminRoleSelect').value);
+        });
     </script>
 </body>
 

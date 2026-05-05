@@ -182,6 +182,7 @@ $totalPending = $db->query("SELECT COUNT(*) FROM payments WHERE status='pending'
       { href: '/gym-managment/views/staff/dashboard.php', icon: '📊', label: 'Dashboard', id: 'dashboard' },
       { href: '/gym-managment/views/staff/checkin.php',   icon: '✅', label: 'Check-In',  id: 'checkin'   },
       { href: '/gym-managment/views/staff/payments.php',  icon: '💳', label: 'Pagesat',   id: 'payments'  },
+      { href: '/gym-managment/change-password.php', icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
     ];
     const navItems = links.map(l => `
       <a href="${l.href}" class="nav-link ${l.id === 'payments' ? 'active' : ''}">

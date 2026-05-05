@@ -157,7 +157,7 @@ $members = $db->query("
         </main>
     </div>
 
-    <script src="/gym-managment/main.js"></script>
+    <script src="/gym-managment/main.js?v=2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             initSidebar('checkin');

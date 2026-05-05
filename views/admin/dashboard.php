@@ -66,7 +66,7 @@ $todayCheckins = $db->query("SELECT COUNT(*) FROM checkins WHERE DATE(checkin_ti
 
   </main>
 </div>
-<script src="/gym-managment/main.js"></script>
+<script src="/gym-managment/main.js?v=2"></script>
 <script>initSidebar('dashboard');</script>
 </body>
 </html>

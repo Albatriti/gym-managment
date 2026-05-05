@@ -172,6 +172,7 @@ $members = $db->query("
                     label: 'Pagesat',
                     id: 'payments'
                 },
+                { href: '/gym-managment/change-password.php', icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },        
             ];
             const navItems = links.map(l => `
       <a href="${l.href}" class="nav-link ${l.id === 'checkin' ? 'active' : ''}">

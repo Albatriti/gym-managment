@@ -1,42 +1,13 @@
 function getSidebarHTML(activePage) {
     const links = [
-        {
-            href: '/gym-managment/views/admin/dashboard.php',
-            icon: '📊',
-            label: 'Dashboard',
-            id: 'dashboard'
-        },
-        {
-            href: '/gym-managment/views/admin/members.php',
-            icon: '👥',
-            label: 'Anëtarët',
-            id: 'members'
-        },
-        {
-            href: '/gym-managment/views/admin/trainers.php',
-            icon: '🏋️',
-            label: 'Trajnerët',
-            id: 'trainers'
-        },
-        {
-            href: '/gym-managment/views/admin/classes.php',
-            icon: '📅',
-            label: 'Klasat',
-            id: 'classes'
-        },
-        {
-            href: '/gym-managment/views/admin/payments.php',
-            icon: '💳',
-            label: 'Pagesat',
-            id: 'payments'
-        },
-        {
-            href: '/gym-managment/views/admin/checkin.php',
-            icon: '✅',
-            label: 'Check-In',
-            id: 'checkin'
-        },
-    ];
+    { href: '/gym-managment/views/admin/dashboard.php', icon: '📊', label: 'Dashboard',   id: 'dashboard'      },
+    { href: '/gym-managment/views/admin/members.php',   icon: '👥', label: 'Anëtarët',    id: 'members'        },
+    { href: '/gym-managment/views/admin/trainers.php',  icon: '🏋️', label: 'Trajnerët',   id: 'trainers'       },
+    { href: '/gym-managment/views/admin/classes.php',   icon: '📅', label: 'Klasat',      id: 'classes'        },
+    { href: '/gym-managment/views/admin/payments.php',  icon: '💳', label: 'Pagesat',     id: 'payments'       },
+    { href: '/gym-managment/views/admin/checkin.php',   icon: '✅', label: 'Check-In',    id: 'checkin'        },
+    { href: '/gym-managment/change-password.php',       icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
+];
     const navItems = links.map(l => `
         <a href="${l.href}" class="nav-link ${activePage === l.id ? 'active' : ''}">
             <span class="nav-icon">${l.icon}</span> ${l.label}

@@ -189,7 +189,7 @@ $totalAll     = $db->query("SELECT COUNT(*) FROM payments")->fetchColumn();
         </div>
     </div>
 
-    <script src="/gym-managment/main.js"></script>
+    <script src="/gym-managment/main.js?v=2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             initSidebar('payments');

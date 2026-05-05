@@ -132,7 +132,7 @@ $classes = $db->query("
       { href: '/gym-managment/views/member/dashboard.php',       icon: '📊', label: 'Dashboard',   id: 'dashboard'      },
       { href: '/gym-managment/views/member/classes.php',         icon: '📅', label: 'Klasat',      id: 'classes'        },
       { href: '/gym-managment/views/member/history.php',         icon: '📋', label: 'Historiku',   id: 'history'        },
-      { href: '/gym-managment/views/member/change-password.php', icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
+      { href: '/gym-managment/change-password.php', icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
     ];
     const navItems = links.map(l => `
       <a href="${l.href}" class="nav-link ${l.id === 'classes' ? 'active' : ''}">

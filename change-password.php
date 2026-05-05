@@ -1,10 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'member') {
+if (!isset($_SESSION['user_id'])) {
     header('Location: /gym-managment/login.php');
     exit;
 }
-require_once '../../data/Database.php';
+require_once 'data/Database.php';
 $db = Database::getInstance()->getConnection();
 
 $flash = null;
@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newPassword     = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    // Merr fjalëkalimin aktual
     $stmt = $db->prepare("SELECT password FROM users WHERE id = :id");
     $stmt->execute([':id' => $_SESSION['user_id']]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -37,10 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Merr të dhënat e member-it
-$stmt = $db->prepare("SELECT u.first_name, u.last_name, m.id as member_id FROM users u JOIN members m ON u.id = m.user_id WHERE u.id = :uid");
-$stmt->execute([':uid' => $_SESSION['user_id']]);
-$member = $stmt->fetch(PDO::FETCH_ASSOC);
+// Redirect pas rolit
+$dashboardLink = $_SESSION['role'] === 'admin'
+    ? '/gym-managment/views/admin/dashboard.php'
+    : ($_SESSION['role'] === 'staff'
+        ? '/gym-managment/views/staff/dashboard.php'
+        : '/gym-managment/views/member/dashboard.php');
 ?>
 <!DOCTYPE html>
 <html lang="sq">
@@ -81,11 +82,11 @@ $member = $stmt->fetch(PDO::FETCH_ASSOC);
 
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding:14px;background:var(--dark3);border-radius:10px;">
             <div style="width:44px;height:44px;border-radius:50%;background:var(--primary);color:var(--dark);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',cursive;font-size:1rem;flex-shrink:0;">
-              <?php echo strtoupper(substr($member['first_name'],0,1) . substr($member['last_name'] ?? '',0,1)); ?>
+              <?php echo strtoupper(substr($_SESSION['firstName'],0,1) . substr($_SESSION['lastName'] ?? '',0,1)); ?>
             </div>
             <div>
-              <div style="font-weight:600;"><?php echo htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></div>
-              <div style="font-size:0.78rem;color:var(--text-muted);">Member</div>
+              <div style="font-weight:600;"><?php echo htmlspecialchars($_SESSION['firstName'] . ' ' . ($_SESSION['lastName'] ?? '')); ?></div>
+              <div style="font-size:0.78rem;color:var(--text-muted);"><?php echo ucfirst($_SESSION['role']); ?></div>
             </div>
           </div>
 
@@ -112,14 +113,13 @@ $member = $stmt->fetch(PDO::FETCH_ASSOC);
           </form>
 
           <div style="margin-top:16px;text-align:center;">
-            <a href="/gym-managment/views/member/dashboard.php" style="font-size:0.82rem;color:var(--text-muted);text-decoration:none;">
+            <a href="<?php echo $dashboardLink; ?>" style="font-size:0.82rem;color:var(--text-muted);text-decoration:none;">
               ← Kthehu te Dashboard
             </a>
           </div>
 
         </div>
       </div>
-
     </div>
   </main>
 </div>
@@ -127,21 +127,48 @@ $member = $stmt->fetch(PDO::FETCH_ASSOC);
 <script src="/gym-managment/main.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const links = [
-      { href: '/gym-managment/views/member/dashboard.php',         icon: '📊', label: 'Dashboard',        id: 'dashboard'       },
-      { href: '/gym-managment/views/member/classes.php',           icon: '📅', label: 'Klasat',           id: 'classes'         },
-      { href: '/gym-managment/views/member/history.php',           icon: '📋', label: 'Historiku',        id: 'history'         },
-      { href: '/gym-managment/views/member/change-password.php',   icon: '🔒', label: 'Fjalëkalimi',      id: 'changepassword'  },
-    ];
+    const role = '<?php echo $_SESSION['role']; ?>';
+
+    let links = [];
+    if (role === 'admin') {
+      links = [
+        { href: '/gym-managment/views/admin/dashboard.php', icon: '📊', label: 'Dashboard', id: 'dashboard' },
+        { href: '/gym-managment/views/admin/members.php',   icon: '👥', label: 'Anëtarët',  id: 'members'   },
+        { href: '/gym-managment/views/admin/trainers.php',  icon: '🏋️', label: 'Trajnerët', id: 'trainers'  },
+        { href: '/gym-managment/views/admin/classes.php',   icon: '📅', label: 'Klasat',    id: 'classes'   },
+        { href: '/gym-managment/views/admin/payments.php',  icon: '💳', label: 'Pagesat',   id: 'payments'  },
+        { href: '/gym-managment/views/admin/checkin.php',   icon: '✅', label: 'Check-In',  id: 'checkin'   },
+        { href: '/gym-managment/change-password.php',       icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
+      ];
+    } else if (role === 'staff') {
+      links = [
+        { href: '/gym-managment/views/staff/dashboard.php', icon: '📊', label: 'Dashboard', id: 'dashboard' },
+        { href: '/gym-managment/views/staff/checkin.php',   icon: '✅', label: 'Check-In',  id: 'checkin'   },
+        { href: '/gym-managment/views/staff/payments.php',  icon: '💳', label: 'Pagesat',   id: 'payments'  },
+        { href: '/gym-managment/change-password.php',       icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
+      ];
+    } else {
+      links = [
+        { href: '/gym-managment/views/member/dashboard.php', icon: '📊', label: 'Dashboard',   id: 'dashboard'      },
+        { href: '/gym-managment/views/member/classes.php',   icon: '📅', label: 'Klasat',      id: 'classes'        },
+        { href: '/gym-managment/views/member/history.php',   icon: '📋', label: 'Historiku',   id: 'history'        },
+        { href: '/gym-managment/change-password.php',        icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
+      ];
+    }
+
     const navItems = links.map(l => `
       <a href="${l.href}" class="nav-link ${l.id === 'changepassword' ? 'active' : ''}">
         <span class="nav-icon">${l.icon}</span> ${l.label}
       </a>`).join('');
+
+    const panelName = role === 'admin' ? 'Admin Panel' : role === 'staff' ? 'Staff Panel' : 'Member Panel';
+    const avatar    = role === 'admin' ? 'AD' : role === 'staff' ? 'ST' : 'ME';
+
     document.getElementById('sidebar').innerHTML = `
       <div class="sidebar-logo">
         <div class="logo-icon">🏟️</div>
         <h1>GYMFLOW</h1>
-        <p>Member Panel</p>
+        <p>${panelName}</p>
       </div>
       <nav class="sidebar-nav">
         <div class="nav-section-label">Menuja</div>
@@ -149,10 +176,10 @@ $member = $stmt->fetch(PDO::FETCH_ASSOC);
       </nav>
       <div class="sidebar-footer">
         <div class="user-card">
-          <div class="user-avatar">ME</div>
+          <div class="user-avatar">${avatar}</div>
           <div class="user-info">
             <div class="user-name"><?php echo $_SESSION['firstName']; ?></div>
-            <div class="user-role">Member</div>
+            <div class="user-role"><?php echo ucfirst($_SESSION['role']); ?></div>
           </div>
         </div>
       </div>`;
