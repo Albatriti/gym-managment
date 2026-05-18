@@ -159,8 +159,19 @@ $totalAll     = $db->query("SELECT COUNT(*) FROM payments")->fetchColumn();
                 </div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label class="form-label">Paketa</label>
+                        <select class="form-control" name="package" id="packageSelect" onchange="updateAmount(this)">
+                            <option value="25" data-period="Mujore Basic">Basic — 25€ / muaj</option>
+                            <option value="45" data-period="Mujore Pro">Pro — 45€ / muaj</option>
+                            <option value="75" data-period="Mujore Elite">Elite — 75€ / muaj</option>
+                            <option value="250" data-period="Vjetore Basic">Basic Vjetore — 250€ / vit</option>
+                            <option value="450" data-period="Vjetore Pro">Pro Vjetore — 450€ / vit</option>
+                            <option value="750" data-period="Vjetore Elite">Elite Vjetore — 750€ / vit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">Shuma (€)</label>
-                        <input class="form-control" type="number" name="amount" value="30" required />
+                        <input class="form-control" type="number" name="amount" id="amountInput" value="25" readonly style="opacity:0.7;cursor:not-allowed;" />
                     </div>
                     <div class="form-group">
                         <label class="form-label">Metoda</label>
@@ -200,6 +211,13 @@ $totalAll     = $db->query("SELECT COUNT(*) FROM payments")->fetchColumn();
                 row.style.display = (!val || row.dataset.status === val) ? '' : 'none';
             });
         }
+        function updateAmount(select) {
+  const option = select.options[select.selectedIndex];
+  document.getElementById('amountInput').value = option.value;
+  // Përditëso edhe periudhën nëse e ke
+  const periodInput = document.getElementById('periodInput');
+  if (periodInput) periodInput.value = option.dataset.period;
+}
     </script>
 </body>
 
