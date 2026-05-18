@@ -15,7 +15,7 @@ function getSidebarHTML(activePage) {
     return `
         <div class="sidebar-logo">
             <div class="logo-icon">🏟️</div>
-            <h1>GYMFLOW</h1>
+            <h1>APEX GYM</h1>
             <p>Admin Panel</p>
         </div>
         <nav class="sidebar-nav">

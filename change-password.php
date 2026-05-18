@@ -152,6 +152,7 @@ $dashboardLink = $_SESSION['role'] === 'admin'
         { href: '/gym-managment/views/member/dashboard.php', icon: '📊', label: 'Dashboard',   id: 'dashboard'      },
         { href: '/gym-managment/views/member/classes.php',   icon: '📅', label: 'Klasat',      id: 'classes'        },
         { href: '/gym-managment/views/member/history.php',   icon: '📋', label: 'Historiku',   id: 'history'        },
+        { href: '/gym-managment/views/member/qrcode.php', icon: '📱', label: 'QR Code', id: 'qrcode' },
         { href: '/gym-managment/change-password.php',        icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
       ];
     }
@@ -167,7 +168,7 @@ $dashboardLink = $_SESSION['role'] === 'admin'
     document.getElementById('sidebar').innerHTML = `
       <div class="sidebar-logo">
         <div class="logo-icon">🏟️</div>
-        <h1>GYMFLOW</h1>
+        <h1>APEX GYM</h1>
         <p>${panelName}</p>
       </div>
       <nav class="sidebar-nav">

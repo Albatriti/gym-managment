@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kontakti — APEX Gym</title>
+  <link rel="stylesheet" href="css/landing.css"/>
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-info-item:last-child { border-bottom: none; }
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(232,255,71,0.08);
+      border: 1px solid rgba(232,255,71,0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .contact-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .contact-value {
+      font-size: 0.95rem;
+      color: var(--text);
+      font-weight: 400;
+    }
+    .contact-value a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-value a:hover { color: var(--primary); }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .form-control {
+      width: 100%;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: var(--primary); }
+    .form-control::placeholder { color: var(--text-dim); }
+    textarea.form-control { resize: vertical; min-height: 140px; }
+    .hours-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .hours-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    .hours-item:nth-last-child(-n+2) { border-bottom: none; }
+    .hours-day { color: var(--text-muted); font-weight: 300; }
+    .hours-time { color: var(--text); font-weight: 600; }
+    .map-placeholder {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div>
+      <div class="nav-logo-text">APEX</div>
+      <div class="nav-logo-sub">Gym & Fitness</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Kryefaqja</a></li>
+    <li><a href="services.html">Shërbimet</a></li>
+    <li><a href="classes.php">Klasat</a></li>
+    <li><a href="trainers.php">Trajnerët</a></li>
+    <li><a href="pricing.html">Çmimet</a></li>
+    <li><a href="contact.html">Kontakti</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="../login.php" class="btn-nav-login">Hyr</a>
+    <a href="../register.php" class="btn-nav-register">Regjistrohu</a>
+  </div>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Kryefaqja</a>
+      <span>→</span>
+      <span>Kontakti</span>
+    </div>
+    <span class="section-tag">Na Gjeni</span>
+    <h1 class="section-title" style="font-size:clamp(3rem,7vw,6rem);">Na<br/>Kontaktoni</h1>
+    <p class="section-desc">Jemi këtu për çdo pyetje. Na vizitoni, na telefononi ose na dërgoni mesazh.</p>
+  </div>
+</div>
+
+<div class="section">
+
+  <div class="contact-grid">
+
+    <!-- Left: Info + Hours -->
+    <div class="reveal">
+      <span class="section-tag">Informacioni</span>
+      <h2 class="section-title" style="font-size:2.5rem;margin-bottom:32px;">Na Gjeni</h2>
+
+      <div class="contact-info-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Adresa</div>
+          <div class="contact-value">Rruga Mbretëresha Teutë, Nr. 15<br/>Mitrovicë, Kosovë</div>
+        </div>
+      </div>
+
+      <div class="contact-info-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Telefoni</div>
+          <div class="contact-value">
+            <a href="tel:+38344000000">+383 44 000 000</a><br/>
+            <a href="tel:+38328000000" style="font-size:0.85rem;color:var(--text-muted);">+383 28 000 000</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-info-item">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">
+            <a href="mailto:info@apexgym.com">info@apexgym.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-info-item">
+        <div class="contact-icon">📱</div>
+        <div>
+          <div class="contact-label">Rrjetet Sociale</div>
+          <div class="contact-value">
+            <a href="#">Instagram: @apexgym.mitrovice</a><br/>
+            <a href="#" style="font-size:0.85rem;color:var(--text-muted);">Facebook: APEX Gym Mitrovicë</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div style="margin-top:40px;">
+        <span class="section-tag">Orari i Punës</span>
+        <div class="hours-grid" style="margin-top:16px;">
+          <div class="hours-item">
+            <span class="hours-day">E Hënë</span>
+            <span class="hours-time">06:00 — 22:00</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">E Martë</span>
+            <span class="hours-time">06:00 — 22:00</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">E Mërkurë</span>
+            <span class="hours-time">06:00 — 22:00</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">E Enjte</span>
+            <span class="hours-time">06:00 — 22:00</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">E Premte</span>
+            <span class="hours-time">06:00 — 22:00</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">E Shtunë</span>
+            <span class="hours-time">08:00 — 20:00</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">E Diel</span>
+            <span class="hours-time">09:00 — 18:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Contact Form -->
+    <div class="reveal">
+      <span class="section-tag">Mesazhi</span>
+      <h2 class="section-title" style="font-size:2.5rem;margin-bottom:32px;">Dërgo Mesazh</h2>
+
+      <div id="formSuccess" style="display:none;background:rgba(46,213,115,0.1);border:1px solid rgba(46,213,115,0.3);color:#2ed573;padding:16px;border-radius:8px;margin-bottom:20px;font-size:0.88rem;">
+        ✅ Mesazhi u dërgua me sukses! Do t'ju kontaktojmë brenda 24 orëve.
+      </div>
+
+      <form id="contactForm" onsubmit="submitForm(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group">
+            <label class="form-label">Emri</label>
+            <input class="form-control" type="text" placeholder="Emri juaj" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mbiemri</label>
+            <input class="form-control" type="text" placeholder="Mbiemri juaj" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-control" type="email" placeholder="emri@email.com" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefoni</label>
+          <input class="form-control" type="tel" placeholder="+383 44 000 000"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tema</label>
+          <select class="form-control">
+            <option value="">— Zgjidh temën —</option>
+            <option>Informacion mbi anëtarësinë</option>
+            <option>Çmimet dhe planet</option>
+            <option>Trajnim personal</option>
+            <option>Rezervim klase</option>
+            <option>Tjetër</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mesazhi</label>
+          <textarea class="form-control" placeholder="Shkruani mesazhin tuaj këtu..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+          Dërgo Mesazhin
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Map Placeholder -->
+  <div class="map-placeholder reveal">
+    <div style="font-size:2.5rem;">📍</div>
+    <div style="font-family:'Bebas Neue',cursive;font-size:1.2rem;letter-spacing:2px;color:var(--text);">APEX Gym — Mitrovicë</div>
+    <div>Rruga Mbretëresha Teutë, Nr. 15, Mitrovicë, Kosovë</div>
+    <a href="https://maps.google.com" target="_blank" class="btn-outline" style="margin-top:8px;font-size:0.75rem;padding:10px 24px;">
+      Hap në Google Maps
+    </a>
+  </div>
+
+</div>
+
+<!-- CTA Register -->
+<div style="background:var(--dark2);border-top:1px solid var(--border);">
+  <div class="section" style="text-align:center;">
+    <span class="section-tag reveal">Gati të Fillosh?</span>
+    <h2 class="section-title reveal">Bashkohu me APEX Sot</h2>
+    <p style="color:var(--text-muted);margin-bottom:40px;max-width:400px;margin-left:auto;margin-right:auto;font-weight:300;line-height:1.8;" class="reveal">
+      3 ditë prove falas. Pa kontratë. Pa rrezik.
+    </p>
+    <div class="reveal">
+      <a href="../register.php" class="btn-primary">Regjistrohu Tani — Falas</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo-text">APEX</span>
+      <p>Palestra premium në Mitrovicë për ata që duan më shumë nga jeta dhe trupi i tyre.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigimi</h4>
+      <ul>
+        <li><a href="index.html">Kryefaqja</a></li>
+        <li><a href="services.html">Shërbimet</a></li>
+        <li><a href="classes.html">Klasat</a></li>
+        <li><a href="trainers.html">Trajnerët</a></li>
+        <li><a href="pricing.html">Çmimet</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Llogaria</h4>
+      <ul>
+        <li><a href="../login.php">Hyr</a></li>
+        <li><a href="../register.php">Regjistrohu</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakti</h4>
+      <ul>
+        <li><a href="contact.html">📍 Mitrovicë, Kosovë</a></li>
+        <li><a href="tel:+38344000000">📞 +383 44 000 000</a></li>
+        <li><a href="mailto:info@apexgym.com">✉️ info@apexgym.com</a></li>
+        <li><a href="#">⏰ 06:00 — 22:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 APEX Gym Mitrovicë. Të gjitha të drejtat e rezervuara.</p>
+    <p>Developed by Albi Titi</p>
+  </div>
+</footer>
+
+<script src="js/landing.js"></script>
+<script>
+function submitForm(e) {
+  e.preventDefault();
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+</script>
+</body>
+</html>

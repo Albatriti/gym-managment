@@ -60,6 +60,9 @@ $members = $db->query("
             <div class="topbar-actions">
                 <span style="font-size:0.8rem;color:var(--text-muted);" id="liveClock"></span>
                 <a href="/gym-managment/logout.php" class="btn-ghost" style="text-decoration:none;">Dil</a>
+                <a href="/gym-managment/views/staff/scan.php" class="btn-primary-custom" style="font-size:0.78rem;">
+  📱 QR Scan
+</a>
             </div>
         </header>
         <main class="page-content">
@@ -172,7 +175,8 @@ $members = $db->query("
                     label: 'Pagesat',
                     id: 'payments'
                 },
-                { href: '/gym-managment/change-password.php', icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },        
+                { href: '/gym-managment/change-password.php', icon: '🔒', label: 'Fjalëkalimi', id: 'changepassword' },
+                           
             ];
             const navItems = links.map(l => `
       <a href="${l.href}" class="nav-link ${l.id === 'checkin' ? 'active' : ''}">
@@ -181,7 +185,7 @@ $members = $db->query("
             document.getElementById('sidebar').innerHTML = `
       <div class="sidebar-logo">
         <div class="logo-icon">🏟️</div>
-        <h1>GYMFLOW</h1>
+        <h1>APEX GYM</h1>
         <p>Staff Panel</p>
       </div>
       <nav class="sidebar-nav">

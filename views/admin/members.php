@@ -59,10 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 // Merr të gjithë anëtarët
+$filter = $_GET['filter'] ?? '';
+$whereClause = '';
+if ($filter === 'active')  $whereClause = "WHERE m.membership_status = 'active'";
+if ($filter === 'expired') $whereClause = "WHERE m.membership_status = 'expired'";
+if ($filter === 'pending') $whereClause = "WHERE m.membership_status = 'pending'";
+
 $members = $db->query("
     SELECT u.id, u.first_name, u.last_name, u.email, m.phone, m.membership_status, m.membership_expiry, m.id as member_id
     FROM users u
     JOIN members m ON u.id = m.user_id
+    $whereClause
     ORDER BY u.first_name ASC
 ")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -126,7 +133,13 @@ $total        = count($members);
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">Lista e Anëtarëve</span>
-                    <span style="font-size:0.78rem; color:var(--text-muted);"><?php echo $total; ?> anëtarë</span>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <a href="?filter=" class="btn-ghost" style="font-size:0.75rem;text-decoration:none;<?php echo !isset($_GET['filter']) || $_GET['filter']==='' ? 'color:var(--primary);border-color:var(--primary);' : ''; ?>">Të gjitha</a>
+                        <a href="?filter=active" class="btn-ghost" style="font-size:0.75rem;text-decoration:none;<?php echo ($_GET['filter']??'')==='active' ? 'color:var(--success);border-color:var(--success);' : ''; ?>">Aktiv</a>
+                        <a href="?filter=expired" class="btn-ghost" style="font-size:0.75rem;text-decoration:none;<?php echo ($_GET['filter']??'')==='expired' ? 'color:var(--danger);border-color:var(--danger);' : ''; ?>">Skaduar</a>
+                        <a href="?filter=pending" class="btn-ghost" style="font-size:0.75rem;text-decoration:none;<?php echo ($_GET['filter']??'')==='pending' ? 'color:var(--warning);border-color:var(--warning);' : ''; ?>">Pending</a>
+                        <span style="font-size:0.78rem;color:var(--text-muted);"><?php echo $total; ?> anëtarë</span>
+                    </div>
                 </div>
                 <div class="table-wrapper">
                     <table>

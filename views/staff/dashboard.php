@@ -81,7 +81,7 @@ $totalClasses    = $db->query("SELECT COUNT(*) FROM classes WHERE status = 'acti
     document.getElementById('sidebar').innerHTML = `
       <div class="sidebar-logo">
         <div class="logo-icon">🏟️</div>
-        <h1>GYMFLOW</h1>
+        <h1>APEX GYM</h1>
         <p>Staff Panel</p>
       </div>
       <nav class="sidebar-nav">
